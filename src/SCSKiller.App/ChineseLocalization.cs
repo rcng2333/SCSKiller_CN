@@ -15,13 +15,21 @@ internal static class ChineseLocalization
         ["Library"] = "游戏库", ["Compile queue"] = "编译队列", ["Settings"] = "设置", ["About"] = "关于",
         ["Shader Compilation Stutter Killer"] = "着色器编译卡顿终结者",
         ["GPU"] = "显卡", ["Refresh"] = "刷新", ["Add a game…"] = "添加游戏…", ["Add a game"] = "添加游戏",
-        ["Add all"] = "全部添加", ["Compile"] = "编译", ["Recommended"] = "推荐",
+        ["Add all"] = "全部添加", ["Add all ready"] = "添加所有可编译游戏", ["Add all recommended"] = "添加所有推荐游戏",
+        ["Compile"] = "编译", ["Compile queue (0)"] = "编译队列（0）", ["Recommended"] = "推荐",
+        ["Search by name, store or engine"] = "按名称、商店或引擎搜索",
+        ["Game"] = "游戏", ["Shaders"] = "着色器", ["Pipelines"] = "管线", ["Cache"] = "缓存", ["Time"] = "时间", ["Status"] = "状态",
+        ["Recommended to compile"] = "推荐编译", ["known to stutter"] = "已知会卡顿", ["Warmed"] = "已预热",
+        ["Ready to compile"] = "可编译", ["Play"] = "启动", ["Details"] = "详细信息", ["Add to queue"] = "加入队列",
+        ["Steam"] = "Steam", ["Epic Games"] = "Epic Games", ["Xbox / Game Pass"] = "Xbox / Game Pass",
+        ["EA app"] = "EA app", ["Other"] = "其他", ["Compile speed"] = "编译速度", ["threads"] = "线程",
+        ["Ask me first"] = "先询问我", ["Below-normal priority"] = "低于正常优先级", ["measured"] = "已测量",
         ["Driver shader cache"] = "驱动着色器缓存", ["After a driver update"] = "驱动更新后", ["Change"] = "更改",
-        ["Details"] = "详细信息", ["Slow frames"] = "慢帧", ["Shader coverage"] = "着色器覆盖率",
+        ["Slow frames"] = "慢帧", ["Shader coverage"] = "着色器覆盖率",
         ["Frame times last time you played"] = "上次游戏的帧时间", ["Record while I play"] = "游戏时录制",
         ["Turn on recording"] = "开启录制", ["Clear recording"] = "清除录制", ["Careful compile"] = "谨慎编译",
-        ["Ban risk"] = "封禁风险", ["Play"] = "启动", ["Running"] = "运行中", ["In queue"] = "队列中",
-        ["Add to queue"] = "加入队列", ["Queue"] = "队列", ["Pause"] = "暂停", ["Resume"] = "继续",
+        ["Ban risk"] = "封禁风险", ["Running"] = "运行中", ["In queue"] = "队列中",
+        ["Queue"] = "队列", ["Pause"] = "暂停", ["Resume"] = "继续",
         ["Cancel"] = "取消", ["Close"] = "关闭", ["OK"] = "确定", ["Save"] = "保存", ["Open"] = "打开",
         ["Check for updates"] = "检查更新", ["Download source code"] = "下载源代码", ["Source code"] = "源代码",
         ["Website"] = "官方网站", ["Trademarks"] = "商标", ["Third-party components"] = "第三方组件",
@@ -44,6 +52,7 @@ internal static class ChineseLocalization
     static void Translate(DependencyObject node)
     {
         if (node is TextBlock tb && HasLocal(tb, TextBlock.TextProperty)) tb.Text = TranslateText(tb.Text);
+        if (node is TextBox box && HasLocal(box, TextBox.PlaceholderTextProperty)) box.PlaceholderText = TranslateText(box.PlaceholderText);
         if (node is Button b && HasLocal(b, ContentControl.ContentProperty) && b.Content is string s) b.Content = TranslateText(s);
         if (node is HyperlinkButton hb && HasLocal(hb, ContentControl.ContentProperty) && hb.Content is string hs) hb.Content = TranslateText(hs);
         if (node is NavigationViewItem ni && HasLocal(ni, ContentControl.ContentProperty) && ni.Content is string ns) ni.Content = TranslateText(ns);
