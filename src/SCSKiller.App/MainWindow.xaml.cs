@@ -27,6 +27,10 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         ChineseLocalization.Apply(Root);
+        // Page content is created after the window constructor. Apply once the visual tree is
+        // loaded, then once more on the next dispatcher turn for controls created by bindings.
+        Root.Loaded += (_, _) => ApplyChineseAfterLayout();
+        ContentFrame.Loaded += (_, _) => ApplyChineseAfterLayout();
         pages = [(QueueItem, typeof(QueuePage)), (SettingsItem, typeof(SettingsPage)), (AboutItem, typeof(AboutPage))];
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
@@ -95,6 +99,13 @@ public sealed partial class MainWindow : Window
         Nav.SelectedItem = pages.FirstOrDefault(p => p.Page == e.SourcePageType).Item ?? LibraryItem;
         syncingNav = false;
         ChineseLocalization.Apply(Root);
+        ApplyChineseAfterLayout();
+    }
+
+    void ApplyChineseAfterLayout()
+    {
+        ChineseLocalization.Apply(Root);
+        DispatcherQueue.TryEnqueue(() => ChineseLocalization.Apply(Root));
     }
 
     void OnPaneToggle(TitleBar _, object __) => Nav.IsPaneOpen = !Nav.IsPaneOpen;
