@@ -26,6 +26,7 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        ChineseLocalization.Apply(Root);
         pages = [(QueueItem, typeof(QueuePage)), (SettingsItem, typeof(SettingsPage)), (AboutItem, typeof(AboutPage))];
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
@@ -93,6 +94,7 @@ public sealed partial class MainWindow : Window
         syncingNav = true;
         Nav.SelectedItem = pages.FirstOrDefault(p => p.Page == e.SourcePageType).Item ?? LibraryItem;
         syncingNav = false;
+        ChineseLocalization.Apply(Root);
     }
 
     void OnPaneToggle(TitleBar _, object __) => Nav.IsPaneOpen = !Nav.IsPaneOpen;
