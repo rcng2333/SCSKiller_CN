@@ -274,10 +274,10 @@ public sealed class GameRow(GameState s, bool queued = false, bool compiling = f
     {
         GameStatus.Warmed when Partly => $"driver {s.WarmedDriverVersion} · {s.Careful!.LaunchCompiled * 100:0}% still compiled at its first launch",
         GameStatus.Warmed => $"driver {s.WarmedDriverVersion}" + (ScsKiller.IsPartial(s.Plan) ? " · a recording compiles the rest"
-            : ScsKiller.RtAfterRecording(s) ? " · " + ScsKiller.RtAfterRecordingNote : ""),
+            : ScsKiller.RtAfterRecording(s) ? " · 光线追踪需要录制 5 分钟" : ""),
         GameStatus.NeedsRecording when s.AntiCheat != AntiCheat.None => $"{Fmt.AntiCheatName(s.AntiCheat)} blocks recording",
         GameStatus.NeedsRecording when s.RecordingPaused => ScsKiller.PausedNote(App.Core.Settings),
-        GameStatus.NeedsRecording when s.RecorderInstalled && !ScsKiller.RecordedEnough(s) => "recorder on: play for about 5 minutes",
+        GameStatus.NeedsRecording when s.RecorderInstalled && !ScsKiller.RecordedEnough(s) => "录制已开启：请游玩约 5 分钟",
         _ => s.StatusReason,
     } + ModNote(s);
     /// <summary>A shader mod that doesn't block the game: "; RenoDX changes this game's pipelines: ...".</summary>
@@ -577,7 +577,7 @@ public sealed class DetailVm(string id) : Bindable
     {
         GameStatus.Warmed when ScsKiller.IsPartlyWarmed(s) => s.StatusReason,
         GameStatus.Warmed => $"compiled for driver {s.WarmedDriverVersion}" + (s.WarmedAt is { } t ? $" on {t.LocalDateTime:d}" : "")
-            + (RtAfter ? ". " + Sentence(ScsKiller.RtAfterRecordingNote) : ""),
+            + (RtAfter ? "。光线追踪需要录制 5 分钟。" : ""),
         // a cache here: played since a clear or a stopped compile; then the planner's note when the row has one to say
         GameStatus.Ready => (s.CacheOnDisk > 0 ? $"not fully compiled yet: {Format.Bytes(s.CacheOnDisk)} of it is in the driver cache"
             : s.LastWarmTime == null ? "not compiled yet" : "its shader cache is empty: compile it again")
@@ -1385,7 +1385,7 @@ public sealed class AccountVm : Bindable
     /// <summary>"Go back to stable now": on an installed pre-release build, whatever the account.</summary>
     public bool OffersBackToStable => Updater.Installed && AppVersion.Current.Channel != UpdateChannels.Stable;
     public bool ShowsUpdates => ShowsChannels || OffersBackToStable;
-    public string ChannelNote => Updater.Checking ? "Checking for updates…"
+    public string ChannelNote => Updater.Checking ? "正在检查更新…"
         : Updater.Ready is { } v ? AutoInstall.ReadyNote(v, App.Core.Settings)
         : (App.Core.Settings.InstallUpdatesAutomatically ? "Updates download in the background and install the next time SCSKiller starts or quits, never during a compile or a game."
             : "Updates download in the background; Restart to update installs them.") + " Leaving an early channel keeps this build until Stable passes it.";
